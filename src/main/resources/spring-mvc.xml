@@ -32,20 +32,20 @@
 
     <!-- Spring 来扫描指定包下的类，并注册被@Component，@Controller，@Service，@Repository等注解标记的组件 -->
     <!-- 开启注解驱动 和jackson搭配使用 @ResponseBody返回json格式-->
-    <mvc:annotation-driven/>
-    <!--<mvc:annotation-driven conversion-service="conversionService">-->
-        <!--<mvc:message-converters>-->
-            <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
-                <!--<property name="supportedMediaTypes">-->
-                    <!--<list>-->
-                        <!--<value>text/plain;charset=UTF-8</value>-->
-                        <!--<value>text/html;charset=UTF-8</value>-->
-                        <!--<value>application/json;charset=UTF-8</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:message-converters>-->
-    <!--</mvc:annotation-driven>-->
+	<!--加入conversionService使其生效-->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -62,42 +62,46 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!--<mvc:interceptors>-->
-        <!--&lt;!&ndash;登录拦截器&ndash;&gt;-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<bean class="cn.edu.cuit.framework.web.handler.interceptor.LoginInterceptor">-->
-                <!--<property name="allowUrls">-->
-                    <!--<list>-->
-                        <!--&lt;!&ndash; 如果请求中包含以下路径，则不进行拦截 &ndash;&gt;-->
-                        <!--<value>/qrcode.png</value>-->
-                        <!--<value>/login</value>-->
-                        <!--<value>/loginIndex</value>-->
-                        <!--<value>/webservice/api/mobile/platform/login</value>-->
-                        <!--<value>/platform/clientversion/downloadLatestQR</value>-->
-                        <!--<value>/css</value>-->
-                        <!--<value>/img</value>-->
-                        <!--<value>/js</value>-->
-                        <!--<value>/userfiles/upload/</value>-->
-                        <!--<value>/userfiles/user/photo/</value>-->
-                        <!--<value>/ckeditor/plugins/smiley/images/</value>-->
-                        <!--&lt;!&ndash;小程序公开api&ndash;&gt;-->
-                        <!--<value>/webservice/api/wechat/miniprogram/</value>-->
-                        <!--&lt;!&ndash;融云公开路由&ndash;&gt;-->
-                        <!--<value>/webservice/api/mobile/oa/im/openapi/</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <!--登录拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.gxl.framework.handler.interceptor.LoginInterceptor">
+                <property name="allowUrls">
+                    <list>
+                        <!-- 如果请求中包含以下路径，则不进行拦截 -->
+                        <value>/qrcode.png</value>
+                        <value>/login</value>
+                        <value>/loginIndex</value>
+                        <value>/webservice/api/mobile/platform/login</value>
+                        <value>/platform/clientversion/downloadLatestQR</value>
+                        <value>/css</value>
+                        <value>/img</value>
+                        <value>/js</value>
+                        <value>/userfiles/upload/</value>
+                        <value>/userfiles/user/photo/</value>
+                        <value>/ckeditor/plugins/smiley/images/</value>
+                        <!--小程序公开api-->
+                        <value>/webservice/api/wechat/miniprogram/</value>
+                        <!--融云公开路由-->
+                        <value>/webservice/api/mobile/oa/im/openapi/</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 配置静态资源访问 -->
-    <!-- <mvc:default-servlet-handler /> -->
-    <!--<mvc:resources mapping="/**" location="/"/>-->
-    <!--<mvc:resources mapping="/css/**" location="/css/"/>-->
-    <!--<mvc:resources mapping="/img/**" location="/img/"/>-->
-    <!--<mvc:resources mapping="/js/**" location="/js/"/>-->
-    <!--<mvc:resources mapping="/userfiles/upload/**" location="/userfiles/upload/"/>-->
-    <!--<mvc:resources mapping="/userfiles/user/photo/**" location="/userfiles/user/photo/"/>-->
+     <!--<mvc:default-servlet-handler /> -->
+    <!-- 方式二 -->
+    <mvc:resources mapping="/**" location="/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/img/**" location="/img/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/userfiles/upload/**" location="/userfiles/upload/"/>
+    <mvc:resources mapping="/userfiles/user/photo/**" location="/userfiles/user/photo/"/>
+
+    <!--直接响应页面 访问项目前缀/xxxx 无需通过controller转发 view-name也是根据视图解析器自动拼前后缀-->
+    <mvc:view-controller path="/xxxx" view-name="error/error"/>
 
 </beans>

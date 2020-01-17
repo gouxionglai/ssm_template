@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.Serializable;
@@ -39,12 +40,12 @@ public class DemoController implements Serializable {
     }
 
 
-    @RequestMapping("/test2")
-    public Object test2(Model model){
+	@RequestMapping(value ="/test2",method = {RequestMethod.POST})
+    public Object test2(Model model,Date date){
         String message = "hello world222!!!哈哈哈哈";
         System.out.println(message);
         model.addAttribute("message",message);
-        model.addAttribute("current_time",new Date());
+        model.addAttribute("current_time",date);
         //跳转到xx/welcome.jsp页面
         return "welcome";
     }

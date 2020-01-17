@@ -61,7 +61,8 @@ public class LoginInterceptor implements HandlerInterceptor {
      // 未登录，重定向到登录页面
         
 //        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-        return false;
+        return true; //暂时全部放行 写好session登陆之后可以设置拦截
+        //return false;
     }
 
     /* (non-Javadoc)
